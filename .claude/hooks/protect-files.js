@@ -1,9 +1,10 @@
 #!/usr/bin/env node
 
 /**
- * protect-files.js — PreToolUse hook (Edit/Write)
+ * protect-files.js — PreToolUse hook (Edit/Write/Read)
  *
  * Blocks edits to files that should not be modified during agent sessions.
+ * Blocks reads on .env files to prevent agents from reading secrets.
  * Protected paths are configurable via harness.json protectedFiles array.
  *
  * Default protected: .claude/settings.json, .claude/hooks/*
@@ -33,7 +34,7 @@ function main() {
     }
 
     const toolName = event.tool_name || '';
-    if (toolName !== 'Edit' && toolName !== 'Write') {
+    if (toolName !== 'Edit' && toolName !== 'Write' && toolName !== 'Read') {
       process.exit(0);
     }
 
@@ -42,8 +43,21 @@ function main() {
       process.exit(0);
     }
 
-    const relativePath = path.relative(PROJECT_ROOT, filePath).replace(/\\/g, '/');
+    const relativePath = path.relative(PROJECT_ROOT, filePath).replace(/\/g, '/');
 
+    // Read events: only block .env files (secrets protection)
+    if (toolName === 'Read') {
+      const basename = path.basename(filePath);
+      if (basename.startsWith('.env')) {
+        process.stdout.write(
+          `[protect-files] Blocked: cannot read ${relativePath} — .env files contain secrets.`
+        );
+        process.exit(2);
+      }
+      process.exit(0);
+    }
+
+    // Edit/Write events: check against protected patterns
     const config = health.readConfig();
     const protectedPatterns = config.protectedFiles || [
       '.claude/settings.json',

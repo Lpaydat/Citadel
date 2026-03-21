@@ -90,6 +90,9 @@ frontmatter for name and description.
 | "parallel", "simultaneous", "multiple agents" | `/fleet` |
 | "intake", "process pending", "pipeline" | `/autopilot` |
 | "setup", "first run", "configure harness" | `/setup` |
+| "research", "investigate", "look into", "find out" | `/research` |
+| "experiment", "optimize", "try", "A/B", "measure" | `/experiment` |
+| "debug", "root cause", "diagnose", "why is", "investigate bug" | `/systematic-debugging` |
 
 If ONE skill matches with high confidence → invoke it directly. Done.
 If MULTIPLE skills match → fall through to Tier 3.
@@ -176,6 +179,11 @@ SKILLS
   /refactor             Safe multi-file refactoring
   /scaffold             Project-aware scaffolding
   /create-skill         Create new skills from patterns
+
+RESEARCH & DEBUGGING
+  /research             Structured investigation with findings
+  /experiment           Metric-driven optimization loops
+  /systematic-debugging Root cause analysis (4-phase)
 
 UTILITIES
   /session-handoff      Session context transfer
