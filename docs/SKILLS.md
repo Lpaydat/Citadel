@@ -13,7 +13,7 @@ Skills cost zero tokens when not active. They're loaded on demand.
 
 ## Skill File Format
 
-Create a file at `.claude/skills/{name}/SKILL.md`:
+Built-in Citadel skills live in the plugin's `skills/` directory. Custom project skills are created at `.claude/skills/{name}/SKILL.md` in your project:
 
 ```markdown
 ---
@@ -151,7 +151,8 @@ Run it when you notice:
 
 ## Skill Discovery
 
-The `/do` router finds skills by scanning `.claude/skills/*/SKILL.md`.
+The `/do` router finds built-in skills from the Citadel plugin and custom
+skills by scanning `.claude/skills/*/SKILL.md` in your project.
 When you create a new skill, it's automatically available to the router.
 
 The skill's `name` and `description` in the frontmatter determine how
@@ -159,7 +160,7 @@ the router matches it to user intent.
 
 ## Examples
 
-The harness ships with 6 example skills:
+The harness ships with 25 built-in skills. Here are 6 core examples:
 
 | Skill | Type | What It Does |
 |-------|------|-------------|

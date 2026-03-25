@@ -30,7 +30,7 @@ You never invoke them manually. They provide automated quality enforcement.
 
 ## Configuration
 
-Hooks are configured in `.claude/settings.json`:
+Hooks are configured in `hooks/hooks.json` using `${CLAUDE_PLUGIN_ROOT}` for path resolution:
 
 ```json
 {
@@ -40,7 +40,7 @@ Hooks are configured in `.claude/settings.json`:
         "hooks": [
           {
             "type": "command",
-            "command": "node .claude/hooks/post-edit.js",
+            "command": "node '${CLAUDE_PLUGIN_ROOT}/hooks_src/post-edit.js'",
             "timeout": 30
           }
         ]

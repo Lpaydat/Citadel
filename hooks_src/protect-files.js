@@ -7,7 +7,7 @@
  * Blocks reads on .env files to prevent agents from reading secrets.
  * Protected paths are configurable via harness.json protectedFiles array.
  *
- * Default protected: .claude/settings.json, .claude/hooks/*
+ * Default protected: .claude/harness.json
  * Users can add their own patterns.
  *
  * Fail-closed: unexpected errors exit 2 (block) rather than 0 (allow).
@@ -81,8 +81,7 @@ function run(input) {
   // Edit/Write events: check against protected patterns
   const config = health.readConfig();
   const protectedPatterns = config.protectedFiles || [
-    '.claude/settings.json',
-    '.claude/hooks/*',
+    '.claude/harness.json',
   ];
 
   for (const pattern of protectedPatterns) {

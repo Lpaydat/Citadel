@@ -3,12 +3,12 @@
 /**
  * smoke-test.js — Validates all hooks load and execute without errors.
  *
- * Run manually: node .claude/hooks/smoke-test.js
+ * Run manually: node hooks_src/smoke-test.js
  * Run via setup: automatically invoked during /setup
  *
  * Tests:
- *   1. Every hook file referenced in settings.json exists and parses (require())
- *   2. Settings.json is valid JSON with expected structure
+ *   1. Every hook file referenced in hooks.json exists and parses (require())
+ *   2. hooks.json is valid JSON with expected structure
  *   3. Hook commands use relative paths (not $CLAUDE_PROJECT_DIR)
  *   4. All hook utility imports resolve
  *   5. No platform-specific assumptions that would break cross-platform
@@ -21,9 +21,9 @@
 const fs = require('fs');
 const path = require('path');
 
-const PROJECT_ROOT = process.env.CLAUDE_PROJECT_DIR || process.cwd();
-const SETTINGS_PATH = path.join(PROJECT_ROOT, '.claude', 'settings.json');
-const HOOKS_DIR = path.join(PROJECT_ROOT, '.claude', 'hooks');
+const PLUGIN_ROOT = path.resolve(__dirname, '..');
+const SETTINGS_PATH = path.join(PLUGIN_ROOT, 'hooks', 'hooks.json');
+const HOOKS_DIR = path.join(PLUGIN_ROOT, 'hooks_src');
 
 let passed = 0;
 let failed = 0;
@@ -55,24 +55,24 @@ function main() {
   // ── 1. Settings.json exists and is valid JSON ──
 
   let settings;
-  check('settings.json exists', () => {
+  check('hooks.json exists', () => {
     if (!fs.existsSync(SETTINGS_PATH)) return 'File not found';
     return true;
   });
 
-  check('settings.json is valid JSON', () => {
+  check('hooks.json is valid JSON', () => {
     settings = JSON.parse(fs.readFileSync(SETTINGS_PATH, 'utf8'));
     return true;
   });
 
-  check('settings.json has hooks object', () => {
+  check('hooks.json has hooks object', () => {
     if (!settings || !settings.hooks) return 'No "hooks" key found';
     if (typeof settings.hooks !== 'object') return '"hooks" is not an object';
     return true;
   });
 
   if (!settings || !settings.hooks) {
-    console.log('\nCannot continue — settings.json is invalid.\n');
+    console.log('\nCannot continue — hooks.json is invalid.\n');
     process.exit(1);
   }
 
@@ -103,12 +103,14 @@ function main() {
 
   const hookFiles = new Set();
   for (const { event, command } of hookCommands) {
-    // Extract the JS file path from commands like "node .claude/hooks/foo.js"
-    const match = command.match(/node\s+(.+\.js)/);
+    // Extract the JS file path from commands like "node '${CLAUDE_PLUGIN_ROOT}/hooks_src/foo.js'"
+    let commandPath = command.replace(/\$\{CLAUDE_PLUGIN_ROOT\}/g, PLUGIN_ROOT);
+    commandPath = commandPath.replace(/'/g, '');
+    const match = commandPath.match(/node\s+(.+\.js)/);
     if (match) {
       const relPath = match[1].replace(/"/g, '');
       hookFiles.add(relPath);
-      const fullPath = path.join(PROJECT_ROOT, relPath);
+      const fullPath = path.isAbsolute(relPath) ? relPath : path.join(PLUGIN_ROOT, relPath);
 
       check(`${event}: ${relPath} exists`, () => {
         if (!fs.existsSync(fullPath)) return `File not found: ${fullPath}`;
@@ -120,7 +122,7 @@ function main() {
   // ── 4. Every hook file parses without syntax errors ──
 
   for (const relPath of hookFiles) {
-    const fullPath = path.join(PROJECT_ROOT, relPath);
+    const fullPath = path.isAbsolute(relPath) ? relPath : path.join(PLUGIN_ROOT, relPath);
     if (!fs.existsSync(fullPath)) continue;
 
     check(`${relPath} has valid syntax`, () => {
@@ -139,7 +141,7 @@ function main() {
     // Clear cache to test fresh load
     delete require.cache[require.resolve(utilPath)];
     const util = require(utilPath);
-    if (!util.PROJECT_ROOT) return 'MODULE_ROOT not exported';
+    if (!util.PROJECT_ROOT) return 'PROJECT_ROOT not exported';
     if (!util.readConfig) return 'readConfig not exported';
     if (!util.validatePath) return 'validatePath not exported';
     return true;
@@ -148,7 +150,7 @@ function main() {
   // ── 6. Check for hooks that require() harness-health-util ──
 
   for (const relPath of hookFiles) {
-    const fullPath = path.join(PROJECT_ROOT, relPath);
+    const fullPath = path.isAbsolute(relPath) ? relPath : path.join(PLUGIN_ROOT, relPath);
     if (!fs.existsSync(fullPath)) continue;
     const content = fs.readFileSync(fullPath, 'utf8');
 
@@ -164,7 +166,7 @@ function main() {
   // ── 7. Cross-platform checks ──
 
   for (const relPath of hookFiles) {
-    const fullPath = path.join(PROJECT_ROOT, relPath);
+    const fullPath = path.isAbsolute(relPath) ? relPath : path.join(PLUGIN_ROOT, relPath);
     if (!fs.existsSync(fullPath)) continue;
     const content = fs.readFileSync(fullPath, 'utf8');
 

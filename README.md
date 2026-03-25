@@ -6,7 +6,7 @@
 
 Run autonomous coding campaigns with Claude Code. Route any task through the right tool at the right scale — from a one-line fix to a multi-day parallel campaign.
 
-**26 skills | 4 autonomous agents | 10 lifecycle hooks | campaign persistence | fleet coordination**
+**25 skills | 4 autonomous agents | 10 lifecycle hooks | campaign persistence | fleet coordination**
 
 <img src="assets/citadel-overview.svg" width="100%" alt="Citadel system overview — app creation pipeline and safety systems" />
 
@@ -14,41 +14,24 @@ Run autonomous coding campaigns with Claude Code. Route any task through the rig
 
 **Prerequisites:** [Claude Code](https://docs.anthropic.com/en/docs/claude-code) + [Node.js 18+](https://nodejs.org/)
 
-```bash
-# 1. Clone and copy into your project
-git clone https://github.com/SethGammon/Citadel.git
-cp -r Citadel/.claude Citadel/.planning Citadel/scripts your-project/
-```
-
-> **Already have a `.claude/settings.json`?** The copy above will overwrite it. Back up your existing settings first: `cp your-project/.claude/settings.json your-project/.claude/settings.json.bak` — then merge the Citadel hooks into your existing file after install.
-
-<details>
-<summary>Windows? Use PowerShell or Command Prompt instead</summary>
-
-**PowerShell:**
-```powershell
-git clone https://github.com/SethGammon/Citadel.git
-Copy-Item -Recurse Citadel\.claude, Citadel\.planning, Citadel\scripts your-project\
-```
-
-**Command Prompt:**
-```cmd
-git clone https://github.com/SethGammon/Citadel.git
-xcopy /E /I Citadel\.claude your-project\.claude
-xcopy /E /I Citadel\.planning your-project\.planning
-xcopy /E /I Citadel\scripts your-project\scripts
-```
-</details>
+Citadel is a Claude Code **plugin** — install once, works across all your projects. No per-project file copying.
 
 ```bash
-# 2. Run setup (inside Claude Code)
+# 1. Clone and register as a local plugin
+git clone https://github.com/SethGammon/Citadel.git
+
+# In Claude Code, add as a local marketplace and install:
+/plugin marketplace add /path/to/Citadel
+/plugin install citadel@citadel-local
+
+# 2. Run setup (inside any project)
 /do setup
 
 # 3. Try something
 /do review src/main.ts
 ```
 
-That's it. [Full install guide →](QUICKSTART.md)
+That's it. The `init-project` hook auto-scaffolds `.planning/` and `.citadel/scripts/` on every session start. [Full install guide →](QUICKSTART.md)
 
 ## Try These First
 
@@ -100,7 +83,7 @@ Four tiers. Use the cheapest one that fits.
 </tr>
 </table>
 
-## Skills (26)
+## Skills (25)
 
 ### App Creation (3)
 | Skill | What It Does | Invoke |
@@ -154,7 +137,6 @@ Four tiers. Use the cheapest one that fits.
 | Live Preview | Mid-build visual verification via screenshots | `/live-preview` |
 | Session Handoff | Context transfer between sessions | `/session-handoff` |
 | Setup | First-run harness configuration | `/do setup` |
-| Simplify | Reviews changed code for reuse, quality, and efficiency | `/simplify` |
 
 ## Hooks (10)
 
@@ -170,8 +152,9 @@ Automated quality enforcement that runs without you thinking about it.
 | Pre-compaction save | Before context compaction | Saves session state so nothing is lost |
 | Post-compaction restore | After context compaction | Restores session state from saved snapshot |
 | Worktree setup | Agent spawn | Auto-installs deps in parallel agent worktrees |
-| Smoke test | On demand | Validates all hooks load, parse, and resolve (`npm run test:hooks`) |
-| External action gate | Before bash (opt-in) | Blocks push/PR/comment until user approves. Add to `settings.local.json` to enable. |
+| Smoke test | On demand | Validates all hooks load, parse, and resolve (`node hooks_src/smoke-test.js`) |
+| External action gate | Before bash (opt-in) | Blocks push/PR/comment until user approves |
+| Init project | Session start | Auto-scaffolds `.planning/` and `.citadel/scripts/` per-project |
 
 ## Sub-Agents (4)
 
@@ -198,7 +181,7 @@ Run 2-3 agents simultaneously in isolated worktrees. Discoveries compress into ~
 
 **How is this different from CLAUDE.md?** — CLAUDE.md tells Claude about your project. The harness tells Claude *how to work*: routing, persistence, quality enforcement, parallel coordination.
 
-**Do I need to learn all 24 skills?** — No. Just use `/do` and describe what you want in plain English. The router picks the right skill. You can go months without ever typing a skill name directly.
+**Do I need to learn all 25 skills?** — No. Just use `/do` and describe what you want in plain English. The router picks the right skill. You can go months without ever typing a skill name directly.
 
 **What if `/do` routes to the wrong tool?** — Tell it. "Wrong tool" or "just do it yourself" and it adjusts. You can also invoke any skill directly: `/review`, `/archon`, etc. The router is a convenience, not a gate.
 
@@ -206,7 +189,7 @@ Run 2-3 agents simultaneously in isolated worktrees. Discoveries compress into ~
 
 **Can I use this with other AI tools?** — Designed for Claude Code specifically. The concepts are portable but the implementation uses Claude Code's extension points.
 
-**Does this work on Windows?** — Yes. All hooks and scripts run on Node.js. The [quickstart](#quickstart) has install commands for Bash, PowerShell, and Command Prompt.
+**Does this work on Windows?** — Yes. All hooks and scripts run on Node.js. As a plugin, it installs identically on all platforms.
 
 ## Contributing
 

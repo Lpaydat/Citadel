@@ -90,7 +90,7 @@ Agents in the same wave MUST NOT touch the same files:
 ### Multi-Instance Coordination
 
 If multiple Archon or Fleet instances run simultaneously:
-- `scripts/coordination.js` manages instance registration and scope claims
+- `.citadel/scripts/coordination.js` manages instance registration and scope claims
 - Claims are file-based (no database needed)
 - Dead instances cleaned up by `npm run coord:sweep`
 
@@ -114,8 +114,8 @@ If multiple Archon or Fleet instances run simultaneously:
 
 | Script | Purpose |
 |--------|---------|
-| `scripts/compress-discovery.cjs` | Compress agent output to ~500-token briefs |
-| `scripts/parse-handoff.cjs` | Extract HANDOFF blocks from agent output |
-| `scripts/coordination.js` | Multi-instance scope coordination |
-| `scripts/telemetry-log.cjs` | Log agent events |
-| `scripts/telemetry-report.cjs` | Generate performance summaries |
+| `.citadel/scripts/compress-discovery.cjs` | Compress agent output to ~500-token briefs |
+| `.citadel/scripts/parse-handoff.cjs` | Extract HANDOFF blocks from agent output |
+| `.citadel/scripts/coordination.js` | Multi-instance scope coordination |
+| `.citadel/scripts/telemetry-log.cjs` | Log agent events |
+| `.citadel/scripts/telemetry-report.cjs` | Generate performance summaries |

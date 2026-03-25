@@ -11,7 +11,7 @@
     "telemetry:report": "node scripts/telemetry-report.cjs",
     "telemetry:log": "node scripts/telemetry-log.cjs",
     "compress:discovery": "node scripts/compress-discovery.cjs",
-    "test:hooks": "node .claude/hooks/smoke-test.js"
+    "test:hooks": "node hooks_src/smoke-test.js"
   },
   "keywords": [
     "claude",

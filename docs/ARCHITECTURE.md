@@ -57,8 +57,8 @@ Automatic shell scripts that fire on lifecycle events:
 | `restore-compact.js` | SessionStart (compact) | Restore context after compression |
 | `worktree-setup.js` | WorktreeCreate | Initialize worktrees for parallel agents |
 
-Hooks are configured in `.claude/settings.json`. One hook per lifecycle event
-(consolidate rather than chain).
+Hooks are configured in `hooks/hooks.json` using `${CLAUDE_PLUGIN_ROOT}` paths.
+One hook per lifecycle event (consolidate rather than chain).
 
 ## Campaign Files
 
@@ -116,10 +116,12 @@ Scope overlap detection: parent/child directories overlap, siblings don't.
 
 ## Skills
 
-Protocol files that load into Claude's context on demand:
+Protocol files that load into Claude's context on demand.
+Built-in skills live in the plugin's `skills/` directory. Custom project skills live at `.claude/skills/{name}/SKILL.md`.
 
 ```
-.claude/skills/{name}/SKILL.md
+skills/{name}/SKILL.md          # Built-in (plugin)
+.claude/skills/{name}/SKILL.md  # Custom (project)
 
 ---
 name: skill-name
@@ -150,7 +152,7 @@ Skills cost zero tokens when not loaded. They're on-demand expertise.
   "typecheck": { "command": "npx tsc --noEmit", "perFile": true },
   "test": { "command": "npm test", "framework": "vitest" },
   "qualityRules": { "builtIn": ["no-confirm-alert"], "custom": [] },
-  "protectedFiles": [".claude/settings.json"],
+  "protectedFiles": [".claude/harness.json"],
   "features": { "intakeScanner": true, "telemetry": true }
 }
 ```
