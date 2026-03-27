@@ -12,6 +12,7 @@
       --border: #30363d;
       --text: #e6edf3;
       --muted: #8b949e;
+      --dim: #4a5568;
       --cyan: #00d2ff;
       --blue: #58a6ff;
       --green: #3fb950;
@@ -36,313 +37,344 @@
     nav {
       width: 100%;
       border-bottom: 1px solid var(--border);
-      padding: 14px 40px;
+      padding: 13px 40px;
       display: flex;
       align-items: center;
       gap: 20px;
       background: var(--surface);
+      position: sticky;
+      top: 0;
+      z-index: 100;
     }
     .nav-logo {
-      font-size: 16px;
-      font-weight: 700;
-      color: var(--text);
-      letter-spacing: 2px;
-      text-decoration: none;
+      font-size: 15px; font-weight: 700; color: var(--text);
+      letter-spacing: 3px; text-decoration: none;
     }
     .nav-sep { color: var(--border); }
     .nav-link {
-      font-size: 13px;
-      color: var(--muted);
-      text-decoration: none;
+      font-size: 13px; color: var(--muted); text-decoration: none;
       transition: color 0.15s;
     }
     .nav-link:hover { color: var(--text); }
-    .nav-right { margin-left: auto; }
+    .nav-right { margin-left: auto; display: flex; align-items: center; gap: 12px; }
     .nav-badge {
-      font-size: 11px;
-      padding: 3px 10px;
-      border-radius: 20px;
-      border: 1px solid var(--border);
-      color: var(--muted);
+      font-size: 11px; padding: 3px 10px; border-radius: 20px;
+      border: 1px solid var(--border); color: var(--muted);
     }
+    .nav-star {
+      font-size: 12px; padding: 4px 12px; border-radius: 6px;
+      background: var(--surface-2); border: 1px solid var(--border);
+      color: var(--text); text-decoration: none;
+      transition: border-color 0.15s;
+    }
+    .nav-star:hover { border-color: var(--cyan); color: var(--cyan); }
 
     /* ─── Hero ─── */
     .hero {
       text-align: center;
-      padding: 72px 40px 36px;
+      padding: 64px 40px 28px;
       max-width: 820px;
+      width: 100%;
     }
-    .hero-label {
-      font-size: 11px;
-      letter-spacing: 3px;
-      color: var(--cyan);
-      text-transform: uppercase;
-      margin-bottom: 20px;
+    .hero-eyebrow {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 11px; letter-spacing: 3px; color: var(--cyan);
+      text-transform: uppercase; margin-bottom: 20px;
+      padding: 5px 14px; border: 1px solid color-mix(in srgb, var(--cyan) 30%, transparent);
+      border-radius: 20px; background: color-mix(in srgb, var(--cyan) 5%, transparent);
     }
     .hero h1 {
-      font-size: 52px;
-      font-weight: 700;
-      line-height: 1.1;
-      margin-bottom: 20px;
+      font-size: 48px; font-weight: 800; line-height: 1.1; margin-bottom: 16px;
       background: linear-gradient(135deg, #e6edf3 20%, #58a6ff 80%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
       background-clip: text;
     }
-    .hero p {
-      font-size: 18px;
-      color: var(--muted);
-      line-height: 1.65;
-    }
+    .hero p { font-size: 17px; color: var(--muted); line-height: 1.7; max-width: 620px; margin: 0 auto; }
 
-    /* ─── Router playground ─── */
-    .playground {
-      width: 100%;
-      max-width: 1100px;
-      padding: 0 32px 60px;
-    }
+    /* ─── Playground ─── */
+    .playground { width: 100%; max-width: 1100px; padding: 0 32px 64px; }
 
-    .input-area {
-      position: relative;
-      margin-bottom: 32px;
-    }
+    /* ─── Input ─── */
+    .input-wrap { position: relative; margin-bottom: 20px; }
     .input-prompt {
-      position: absolute;
-      left: 20px;
-      top: 50%;
-      transform: translateY(-50%);
-      font-family: 'SF Mono', 'Cascadia Code', monospace;
-      font-size: 15px;
-      color: var(--cyan);
-      pointer-events: none;
+      position: absolute; left: 20px; top: 50%; transform: translateY(-50%);
+      font-family: 'SF Mono', monospace; font-size: 16px; color: var(--cyan);
+      pointer-events: none; font-weight: 600;
     }
     #cmd-input {
-      width: 100%;
-      padding: 22px 24px 22px 58px;
-      background: var(--surface);
-      border: 1.5px solid var(--border);
-      border-radius: 12px;
-      font-family: 'SF Mono', 'Cascadia Code', monospace;
-      font-size: 17px;
-      color: var(--text);
-      outline: none;
+      width: 100%; padding: 22px 120px 22px 58px;
+      background: var(--surface); border: 1.5px solid var(--border);
+      border-radius: 12px; font-family: 'SF Mono', monospace;
+      font-size: 17px; color: var(--text); outline: none;
       transition: border-color 0.2s, box-shadow 0.2s;
     }
     #cmd-input:focus {
       border-color: var(--cyan);
-      box-shadow: 0 0 0 3px color-mix(in srgb, var(--cyan) 15%, transparent);
+      box-shadow: 0 0 0 3px color-mix(in srgb, var(--cyan) 12%, transparent);
     }
-    #cmd-input::placeholder { color: var(--muted); }
+    #cmd-input::placeholder { color: var(--dim); }
 
-    .examples {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-bottom: 32px;
+    .input-actions {
+      position: absolute; right: 14px; top: 50%; transform: translateY(-50%);
+      display: flex; align-items: center; gap: 8px;
     }
+    .live-badge {
+      font-size: 11px; padding: 3px 10px; border-radius: 20px;
+      background: transparent; border: 1px solid transparent;
+      color: var(--muted); transition: all 0.2s; white-space: nowrap;
+      font-family: 'SF Mono', monospace;
+    }
+    .live-badge.active {
+      border-color: currentColor; opacity: 1;
+    }
+    .input-hint {
+      font-size: 11px; color: var(--dim); margin-top: 8px;
+      font-family: 'SF Mono', monospace; padding-left: 4px;
+    }
+    .input-hint kbd {
+      display: inline-block; padding: 1px 5px; border-radius: 4px;
+      border: 1px solid var(--border); background: var(--surface);
+      font-size: 10px; color: var(--muted);
+    }
+
+    /* ─── Example categories ─── */
+    .examples-wrap { margin-bottom: 28px; }
+    .examples-label {
+      font-size: 10px; letter-spacing: 2px; color: var(--dim);
+      text-transform: uppercase; margin-bottom: 10px;
+    }
+    .example-group { margin-bottom: 10px; }
+    .example-row { display: flex; flex-wrap: wrap; gap: 7px; }
     .example-btn {
-      padding: 8px 14px;
-      background: var(--surface-2);
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      font-size: 12px;
-      font-family: 'SF Mono', 'Cascadia Code', monospace;
-      color: var(--muted);
-      cursor: pointer;
-      transition: all 0.15s;
+      padding: 7px 13px; background: var(--surface-2);
+      border: 1px solid var(--border); border-radius: 20px;
+      font-size: 12px; font-family: 'SF Mono', monospace;
+      color: var(--muted); cursor: pointer; transition: all 0.15s;
     }
-    .example-btn:hover {
-      border-color: var(--cyan);
-      color: var(--text);
+    .example-btn:hover { border-color: var(--active-color, var(--cyan)); color: var(--text); }
+    .example-btn.t0 { --active-color: var(--green); }
+    .example-btn.t2 { --active-color: var(--blue); }
+    .example-btn.t3a { --active-color: var(--orange); }
+    .example-btn.t3b { --active-color: var(--purple); }
+    .example-category {
+      font-size: 10px; letter-spacing: 1.5px; color: var(--dim);
+      text-transform: uppercase; margin-bottom: 7px; margin-top: 14px;
     }
 
     /* ─── Result panel ─── */
     .result-panel {
-      background: var(--surface);
-      border: 1.5px solid var(--border);
-      border-radius: 14px;
-      overflow: hidden;
-      opacity: 0;
-      transform: translateY(10px);
-      transition: opacity 0.35s, transform 0.35s;
+      background: var(--surface); border: 1.5px solid var(--border);
+      border-radius: 14px; overflow: hidden;
+      opacity: 0; transform: translateY(8px);
+      transition: opacity 0.3s, transform 0.3s;
     }
-    .result-panel.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
+    .result-panel.visible { opacity: 1; transform: translateY(0); }
 
     .result-header {
-      padding: 20px 28px;
-      border-bottom: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      gap: 12px;
+      padding: 16px 24px; border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; gap: 12px;
       background: var(--surface-2);
     }
     .result-command {
-      font-family: 'SF Mono', 'Cascadia Code', monospace;
-      font-size: 16px;
-      color: var(--blue);
+      font-family: 'SF Mono', monospace; font-size: 15px; color: var(--blue);
+    }
+    .result-meta { margin-left: auto; display: flex; gap: 8px; align-items: center; }
+    .result-timer {
+      font-size: 11px; color: var(--dim); font-family: 'SF Mono', monospace;
     }
 
     /* ─── Tier cascade ─── */
-    .tier-cascade {
-      padding: 28px;
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-    }
+    .tier-cascade { padding: 20px 20px 12px; display: flex; flex-direction: column; gap: 8px; }
 
     .tier-row {
       display: grid;
-      grid-template-columns: 120px 1fr 180px auto;
-      align-items: center;
-      gap: 20px;
-      padding: 20px 24px;
+      grid-template-columns: 108px 1fr auto;
+      align-items: center; gap: 16px;
+      padding: 14px 20px;
       border-radius: 10px;
       border: 1.5px solid var(--border);
       background: var(--surface-2);
       opacity: 0.3;
-      transition: opacity 0.3s, border-color 0.3s, background 0.3s, box-shadow 0.3s;
+      position: relative; overflow: hidden;
+      transition: opacity 0.25s, border-color 0.25s, background 0.25s, box-shadow 0.25s;
     }
-    .tier-row.checking {
-      opacity: 0.7;
+    .tier-row::after {
+      content: ''; position: absolute; top: 0; left: -80px;
+      width: 80px; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.04), transparent);
+      transform: translateX(0); opacity: 0;
+      transition: none;
     }
+    .tier-row.checking::after {
+      opacity: 1;
+      animation: tier-scan 0.7s linear infinite;
+    }
+    @keyframes tier-scan {
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(calc(100% + 80px + 100%)); }
+    }
+    .tier-row.checking { opacity: 0.65; }
     .tier-row.matched {
       opacity: 1;
       border-color: var(--match-color);
-      background: color-mix(in srgb, var(--match-color) 6%, var(--surface-2));
-      box-shadow: 0 0 20px color-mix(in srgb, var(--match-color) 15%, transparent);
+      background: color-mix(in srgb, var(--match-color) 7%, var(--surface-2));
+      box-shadow: 0 0 24px color-mix(in srgb, var(--match-color) 14%, transparent),
+                  inset 0 0 0 1px color-mix(in srgb, var(--match-color) 20%, transparent);
     }
-    .tier-row.skipped {
-      opacity: 0.18;
-    }
+    .tier-row.skipped { opacity: 0.14; }
 
+    .tier-left { display: flex; flex-direction: column; gap: 4px; }
     .tier-badge {
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 2px;
-      padding: 6px 14px;
-      border-radius: 6px;
-      white-space: nowrap;
-      border: 1.5px solid currentColor;
-      text-align: center;
+      font-size: 10px; font-weight: 700; letter-spacing: 2px;
+      padding: 4px 10px; border-radius: 5px; white-space: nowrap;
+      border: 1.5px solid currentColor; text-align: center;
     }
-    .tier-name {
-      font-size: 15px;
-      font-weight: 600;
-    }
-    .tier-desc {
-      font-size: 12px;
-      color: var(--muted);
-      line-height: 1.5;
-    }
+    .tier-sub { font-size: 10px; color: var(--dim); text-align: center; letter-spacing: 0.5px; }
+
+    .tier-center { min-width: 0; }
+    .tier-name { font-size: 14px; font-weight: 600; margin-bottom: 2px; }
+    .tier-desc { font-size: 11px; color: var(--muted); line-height: 1.5; }
+
     .tier-status {
-      font-size: 12px;
-      font-weight: 600;
-      margin-left: auto;
-      white-space: nowrap;
+      font-size: 11px; font-weight: 600; white-space: nowrap;
+      text-align: right; min-width: 120px;
     }
 
-    /* ─── Output ─── */
+    /* ─── Classification panel (Tier 3) ─── */
+    .classification {
+      margin: 4px 20px 12px;
+      padding: 14px 18px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: color-mix(in srgb, var(--orange) 4%, var(--surface));
+      display: none;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px 20px;
+    }
+    .classification.visible { display: grid; }
+    .classification.purple-theme {
+      background: color-mix(in srgb, var(--purple) 4%, var(--surface));
+    }
+    .cl-dim { display: flex; flex-direction: column; gap: 3px; }
+    .cl-label {
+      font-size: 9px; letter-spacing: 2px; color: var(--dim);
+      text-transform: uppercase; font-family: 'SF Mono', monospace;
+    }
+    .cl-value {
+      font-size: 13px; font-weight: 600; color: var(--text);
+      font-family: 'SF Mono', monospace;
+    }
+    .cl-value.accent { color: var(--orange); }
+    .cl-value.accent-purple { color: var(--purple); }
+    .cl-dots { display: flex; gap: 3px; margin-top: 1px; }
+    .cl-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--border); }
+    .cl-dot.on { background: var(--orange); }
+    .cl-dot.on-purple { background: var(--purple); }
+
+    /* ─── Output section ─── */
     .output-section {
-      border-top: 2px solid var(--border);
-      padding: 32px 28px;
-      opacity: 0;
-      transform: translateY(6px);
-      transition: opacity 0.4s, transform 0.4s, border-color 0.4s;
+      border-top: 1.5px solid var(--border);
+      padding: 20px;
+      opacity: 0; transform: translateY(4px);
+      transition: opacity 0.35s, transform 0.35s, border-color 0.35s;
     }
     .output-section.visible { opacity: 1; transform: translateY(0); }
 
     .output-inner {
-      display: flex;
-      align-items: flex-start;
-      gap: 32px;
-      padding: 28px;
-      border-radius: 12px;
-      border: 1.5px solid var(--border);
-      background: var(--surface-2);
+      display: flex; align-items: flex-start; gap: 24px;
+      padding: 22px 24px; border-radius: 10px;
+      border: 1.5px solid var(--border); background: var(--surface-2);
+      transition: border-color 0.3s, box-shadow 0.3s;
     }
-
-    .output-icon {
-      font-size: 48px;
-      line-height: 1;
-      flex-shrink: 0;
+    .output-icon { font-size: 44px; line-height: 1; flex-shrink: 0; }
+    .output-tool { flex: 1; min-width: 0; }
+    .output-name {
+      font-size: 28px; font-weight: 700;
+      font-family: 'SF Mono', monospace; margin-bottom: 8px;
     }
-
-    .output-tool {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      flex: 1;
-    }
-    .output-tool-name {
-      font-size: 32px;
-      font-weight: 700;
-      font-family: 'SF Mono', 'Cascadia Code', monospace;
-    }
-    .output-tool-desc {
-      font-size: 15px;
-      color: var(--muted);
-      line-height: 1.6;
-      max-width: 560px;
-    }
-    .output-meta {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 4px;
-    }
+    .output-desc { font-size: 14px; color: var(--muted); line-height: 1.65; margin-bottom: 12px; }
+    .output-meta { display: flex; flex-wrap: wrap; gap: 7px; }
     .meta-badge {
-      font-size: 12px;
-      padding: 5px 14px;
-      border-radius: 20px;
-      background: var(--bg);
-      border: 1px solid var(--border);
-      color: var(--muted);
-      white-space: nowrap;
+      font-size: 11px; padding: 4px 12px; border-radius: 20px;
+      background: var(--bg); border: 1px solid var(--border); color: var(--muted);
     }
-    .meta-badge.highlight {
-      border-color: var(--match-color);
-      color: var(--match-color);
+    .meta-badge.hi {
+      border-color: var(--match-color); color: var(--match-color);
       background: color-mix(in srgb, var(--match-color) 8%, var(--bg));
     }
 
-    /* ─── Stat bar ─── */
+    /* ─── Route history ─── */
+    .history-section {
+      padding: 0 20px 16px; display: none;
+    }
+    .history-section.visible { display: block; }
+    .history-label {
+      font-size: 10px; letter-spacing: 2px; color: var(--dim);
+      text-transform: uppercase; margin-bottom: 8px;
+    }
+    .history-items { display: flex; flex-wrap: wrap; gap: 6px; }
+    .history-pill {
+      font-size: 11px; padding: 4px 12px; border-radius: 20px;
+      border: 1px solid var(--border); color: var(--muted);
+      background: var(--bg); cursor: pointer; font-family: 'SF Mono', monospace;
+      transition: all 0.15s; max-width: 240px; overflow: hidden;
+      text-overflow: ellipsis; white-space: nowrap;
+    }
+    .history-pill:hover { border-color: var(--pill-color, var(--cyan)); color: var(--text); }
+
+    /* ─── Stats bar ─── */
     .stat-bar {
-      display: flex;
-      gap: 32px;
-      justify-content: center;
-      padding: 24px 40px;
+      width: 100%; max-width: 1100px;
+      display: grid; grid-template-columns: repeat(4, 1fr);
       border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 0;
     }
     .stat {
-      text-align: center;
+      text-align: center; padding: 28px 20px;
+      border-right: 1px solid var(--border);
     }
+    .stat:last-child { border-right: none; }
     .stat-num {
-      font-size: 28px;
-      font-weight: 700;
-      color: var(--cyan);
-      font-family: 'SF Mono', 'Cascadia Code', monospace;
+      font-size: 32px; font-weight: 800; color: var(--cyan);
+      font-family: 'SF Mono', monospace; line-height: 1;
+      margin-bottom: 6px;
     }
-    .stat-label {
-      font-size: 11px;
-      color: var(--muted);
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      margin-top: 4px;
+    .stat-label { font-size: 11px; color: var(--muted); letter-spacing: 1px; text-transform: uppercase; }
+
+    /* ─── How it works section ─── */
+    .how-section {
+      width: 100%; max-width: 1100px;
+      padding: 56px 32px 64px;
+      display: grid; grid-template-columns: repeat(2, 1fr);
+      gap: 32px;
     }
+    .how-card {
+      padding: 28px; border-radius: 12px;
+      border: 1.5px solid var(--border); background: var(--surface);
+    }
+    .how-card-header { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+    .how-tier-badge {
+      font-size: 11px; font-weight: 700; letter-spacing: 2px;
+      padding: 5px 12px; border-radius: 6px; border: 1.5px solid currentColor;
+    }
+    .how-card-name { font-size: 16px; font-weight: 700; }
+    .how-card-sub { font-size: 12px; color: var(--dim); margin-top: 2px; }
+    .how-card-desc { font-size: 13px; color: var(--muted); line-height: 1.65; margin-bottom: 14px; }
+    .how-examples { display: flex; flex-direction: column; gap: 5px; }
+    .how-example {
+      font-size: 12px; font-family: 'SF Mono', monospace;
+      color: var(--dim); padding: 6px 10px; border-radius: 6px;
+      background: var(--surface-2); border: 1px solid var(--border);
+      cursor: pointer; transition: border-color 0.15s, color 0.15s;
+    }
+    .how-example:hover { border-color: var(--ex-color, var(--cyan)); color: var(--text); }
 
     /* ─── Footer ─── */
     footer {
-      width: 100%;
-      border-top: 1px solid var(--border);
-      padding: 20px 40px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      color: var(--muted);
-      font-size: 13px;
+      width: 100%; border-top: 1px solid var(--border);
+      padding: 20px 40px; display: flex; align-items: center;
+      justify-content: space-between; color: var(--muted); font-size: 13px;
     }
     footer a { color: var(--muted); text-decoration: none; }
     footer a:hover { color: var(--text); }
@@ -350,21 +382,25 @@
     /* ─── Spinner ─── */
     @keyframes spin { to { transform: rotate(360deg); } }
     .spinner {
-      width: 14px; height: 14px;
-      border: 2px solid var(--border);
-      border-top-color: var(--cyan);
-      border-radius: 50%;
-      animation: spin 0.6s linear infinite;
-      display: none;
+      width: 13px; height: 13px; border: 2px solid var(--border);
+      border-top-color: var(--cyan); border-radius: 50%;
+      animation: spin 0.55s linear infinite; display: none; flex-shrink: 0;
     }
     .spinner.active { display: inline-block; }
 
-    /* ─── Pulse on tier ─── */
-    @keyframes tier-pulse {
-      0%, 100% { box-shadow: 0 0 0 0 transparent; }
-      50% { box-shadow: 0 0 12px 2px var(--match-color); }
+    /* ─── Responsive ─── */
+    @media (max-width: 760px) {
+      nav { padding: 12px 20px; gap: 12px; }
+      .hero { padding: 40px 20px 20px; }
+      .hero h1 { font-size: 32px; }
+      .playground { padding: 0 16px 40px; }
+      .tier-row { grid-template-columns: 90px 1fr; }
+      .tier-status { display: none; }
+      .how-section { grid-template-columns: 1fr; padding: 32px 16px 40px; }
+      .stat-bar { grid-template-columns: repeat(2, 1fr); }
+      .stat { border-bottom: 1px solid var(--border); }
+      .classification { grid-template-columns: repeat(2, 1fr); }
     }
-    .tier-row.matched { animation: tier-pulse 1.5s ease-in-out; }
   </style>
 </head>
 <body>
@@ -372,68 +408,162 @@
   <nav>
     <a class="nav-logo" href="https://github.com/SethGammon/Citadel">CITADEL</a>
     <span class="nav-sep">·</span>
-    <a class="nav-link" href="https://github.com/SethGammon/Citadel">GitHub</a>
-    <a class="nav-link" href="https://github.com/SethGammon/Citadel#quickstart">Quickstart</a>
+    <a class="nav-link" href="https://github.com/SethGammon/Citadel#quickstart">Install</a>
     <a class="nav-link" href="https://github.com/SethGammon/Citadel/blob/main/docs/SKILLS.md">Skills</a>
     <a class="nav-link" href="https://github.com/SethGammon/Citadel/blob/main/docs/HOOKS.md">Hooks</a>
-    <span class="nav-right">
+    <a class="nav-link" href="https://github.com/SethGammon/Citadel/blob/main/docs/CAMPAIGNS.md">Campaigns</a>
+    <div class="nav-right">
       <span class="nav-badge">v2.1</span>
-    </span>
+      <a class="nav-star" href="https://github.com/SethGammon/Citadel">★ Star</a>
+    </div>
   </nav>
 
   <div class="hero">
-    <div class="hero-label">Interactive Demo · Citadel v2.1</div>
-    <h1>The /do Intent Router</h1>
-    <p>Type any engineering task. Citadel evaluates four tiers in sequence and dispatches to the cheapest tool that can handle it — no configuration, no choice required.</p>
+    <div class="hero-eyebrow">
+      <span>⚡</span>
+      <span>Interactive Demo · /do Intent Router</span>
+    </div>
+    <h1>Say what you want.<br>Citadel routes it.</h1>
+    <p>Type any engineering task. The router evaluates four tiers in sequence and dispatches to the cheapest tool capable — no configuration, no manual skill selection.</p>
   </div>
 
   <div class="playground">
-    <div class="input-area">
+
+    <!-- Input -->
+    <div class="input-wrap">
       <span class="input-prompt">/do</span>
-      <input id="cmd-input" type="text" placeholder="describe what you want…" autocomplete="off" spellcheck="false" />
+      <input id="cmd-input" type="text" placeholder="describe what you want…"
+             autocomplete="off" spellcheck="false" />
+      <div class="input-actions">
+        <span class="live-badge" id="live-badge"></span>
+      </div>
+    </div>
+    <div class="input-hint">
+      <kbd>Enter</kbd> to route &nbsp;·&nbsp; <kbd>↑ ↓</kbd> history &nbsp;·&nbsp; <kbd>Esc</kbd> clear
     </div>
 
-    <div class="examples">
-      <button class="example-btn" data-cmd="fix the typo on line 42">fix the typo on line 42</button>
-      <button class="example-btn" data-cmd="review the auth module">review the auth module</button>
-      <button class="example-btn" data-cmd="write tests for the payment service">write tests for the payment service</button>
-      <button class="example-btn" data-cmd="build me a recipe app">build me a recipe app</button>
-      <button class="example-btn" data-cmd="why is the API returning 500">why is the API returning 500</button>
-      <button class="example-btn" data-cmd="overhaul all three services">overhaul all three services</button>
-      <button class="example-btn" data-cmd="document the API endpoints">document the API endpoints</button>
-      <button class="example-btn" data-cmd="refactor the auth middleware">refactor the auth middleware</button>
+    <!-- Example buttons -->
+    <div class="examples-wrap" style="margin-top:20px">
+      <div class="example-category">⚡ Instant — no model call</div>
+      <div class="example-row">
+        <button class="example-btn t0" data-cmd="fix the typo on line 42">fix the typo on line 42</button>
+        <button class="example-btn t0" data-cmd="rename UserController to UserHandler">rename UserController to UserHandler</button>
+        <button class="example-btn t0" data-cmd="commit my changes">commit my changes</button>
+        <button class="example-btn t0" data-cmd="typecheck">typecheck</button>
+      </div>
+
+      <div class="example-category" style="margin-top:14px">◆ Code quality — keyword match</div>
+      <div class="example-row">
+        <button class="example-btn t2" data-cmd="review the auth module">review the auth module</button>
+        <button class="example-btn t2" data-cmd="write tests for the payment service">write tests for the payment service</button>
+        <button class="example-btn t2" data-cmd="document the API endpoints">document the API endpoints</button>
+        <button class="example-btn t2" data-cmd="refactor the auth middleware">refactor the auth middleware</button>
+        <button class="example-btn t2" data-cmd="scaffold a new notifications module">scaffold a new notifications module</button>
+        <button class="example-btn t2" data-cmd="why is the API returning 500">why is the API returning 500</button>
+        <button class="example-btn t2" data-cmd="research the best caching strategy">research the best caching strategy</button>
+      </div>
+
+      <div class="example-category" style="margin-top:14px">⬡ Multi-session campaign — LLM routes</div>
+      <div class="example-row">
+        <button class="example-btn t3a" data-cmd="build me a recipe app">build me a recipe app</button>
+        <button class="example-btn t3a" data-cmd="add a dark mode toggle">add a dark mode toggle</button>
+        <button class="example-btn t3a" data-cmd="implement Stripe payments">implement Stripe payments</button>
+        <button class="example-btn t3a" data-cmd="create a real-time chat feature">create a real-time chat feature</button>
+      </div>
+
+      <div class="example-category" style="margin-top:14px">⬢ Parallel fleet — platform-wide</div>
+      <div class="example-row">
+        <button class="example-btn t3b" data-cmd="overhaul all three services">overhaul all three services</button>
+        <button class="example-btn t3b" data-cmd="redesign the entire data layer">redesign the entire data layer</button>
+        <button class="example-btn t3b" data-cmd="migrate the platform to TypeScript strict mode">migrate the platform to TypeScript strict mode</button>
+      </div>
     </div>
 
+    <!-- Result panel -->
     <div class="result-panel" id="result-panel">
       <div class="result-header">
         <span class="spinner" id="spinner"></span>
         <span class="result-command" id="result-command"></span>
+        <div class="result-meta">
+          <span class="result-timer" id="result-timer"></span>
+        </div>
       </div>
 
       <div class="tier-cascade">
         <div class="tier-row" id="tier0" style="--match-color: var(--green)">
-          <span class="tier-badge" style="color: var(--green)">TIER 0</span>
-          <span class="tier-name">Pattern Match</span>
-          <span class="tier-desc">Regex on raw input — fix typo, rename, commit, build, test</span>
+          <div class="tier-left">
+            <span class="tier-badge" style="color:var(--green)">TIER 0</span>
+            <span class="tier-sub">~0 tokens</span>
+          </div>
+          <div class="tier-center">
+            <div class="tier-name">Pattern Match</div>
+            <div class="tier-desc">Regex on raw input — fix typo, rename, commit, build, status</div>
+          </div>
           <span class="tier-status" id="tier0-status"></span>
         </div>
+
         <div class="tier-row" id="tier1" style="--match-color: var(--blue)">
-          <span class="tier-badge" style="color: var(--blue)">TIER 1</span>
-          <span class="tier-name">Active State</span>
-          <span class="tier-desc">Active campaign or fleet session matches the request</span>
+          <div class="tier-left">
+            <span class="tier-badge" style="color:var(--blue)">TIER 1</span>
+            <span class="tier-sub">~0 tokens</span>
+          </div>
+          <div class="tier-center">
+            <div class="tier-name">Active State</div>
+            <div class="tier-desc">Resumes a campaign or fleet session already in progress</div>
+          </div>
           <span class="tier-status" id="tier1-status"></span>
         </div>
+
         <div class="tier-row" id="tier2" style="--match-color: var(--cyan)">
-          <span class="tier-badge" style="color: var(--cyan)">TIER 2</span>
-          <span class="tier-name">Keyword Match</span>
-          <span class="tier-desc">Installed skill keywords matched — review, test, debug, research…</span>
+          <div class="tier-left">
+            <span class="tier-badge" style="color:var(--cyan)">TIER 2</span>
+            <span class="tier-sub">~0 tokens</span>
+          </div>
+          <div class="tier-center">
+            <div class="tier-name">Keyword Match</div>
+            <div class="tier-desc">Matched against the installed skill keyword table — review, test, debug, scaffold…</div>
+          </div>
           <span class="tier-status" id="tier2-status"></span>
         </div>
+
         <div class="tier-row" id="tier3" style="--match-color: var(--orange)">
-          <span class="tier-badge" style="color: var(--orange)">TIER 3</span>
-          <span class="tier-name">LLM Classifier</span>
-          <span class="tier-desc">6-dimension classification: scope, complexity, intent, persistence, parallel, taste</span>
+          <div class="tier-left">
+            <span class="tier-badge" style="color:var(--orange)">TIER 3</span>
+            <span class="tier-sub">~500 tokens</span>
+          </div>
+          <div class="tier-center">
+            <div class="tier-name">LLM Classifier</div>
+            <div class="tier-desc">6-dimension classification: scope · complexity · intent · persist · parallel · taste</div>
+          </div>
           <span class="tier-status" id="tier3-status"></span>
+        </div>
+      </div>
+
+      <!-- Tier 3 classification breakdown -->
+      <div class="classification" id="classification">
+        <div class="cl-dim">
+          <span class="cl-label">Intent</span>
+          <span class="cl-value accent" id="cl-intent">build</span>
+        </div>
+        <div class="cl-dim">
+          <span class="cl-label">Scope</span>
+          <span class="cl-value" id="cl-scope">single-domain</span>
+        </div>
+        <div class="cl-dim">
+          <span class="cl-label">Complexity</span>
+          <div class="cl-dots" id="cl-dots"></div>
+        </div>
+        <div class="cl-dim">
+          <span class="cl-label">Multi-session</span>
+          <span class="cl-value accent" id="cl-persist">yes</span>
+        </div>
+        <div class="cl-dim">
+          <span class="cl-label">Parallel</span>
+          <span class="cl-value" id="cl-parallel">no</span>
+        </div>
+        <div class="cl-dim">
+          <span class="cl-label">Taste required</span>
+          <span class="cl-value" id="cl-taste">yes</span>
         </div>
       </div>
 
@@ -441,15 +571,22 @@
         <div class="output-inner" id="output-inner">
           <div class="output-icon" id="output-icon"></div>
           <div class="output-tool">
-            <div class="output-tool-name" id="output-name"></div>
-            <div class="output-tool-desc" id="output-desc"></div>
+            <div class="output-name" id="output-name"></div>
+            <div class="output-desc" id="output-desc"></div>
             <div class="output-meta" id="output-meta"></div>
           </div>
         </div>
       </div>
-    </div>
-  </div>
 
+      <div class="history-section" id="history-section">
+        <div class="history-label">Recently routed</div>
+        <div class="history-items" id="history-items"></div>
+      </div>
+    </div>
+
+  </div><!-- /playground -->
+
+  <!-- Stats -->
   <div class="stat-bar">
     <div class="stat">
       <div class="stat-num">33</div>
@@ -469,8 +606,75 @@
     </div>
   </div>
 
+  <!-- How It Works cards -->
+  <div class="how-section">
+    <div class="how-card" onclick="void(0)">
+      <div class="how-card-header">
+        <span class="how-tier-badge" style="color:var(--green)">TIER 0</span>
+        <div>
+          <div class="how-card-name">Pattern Match</div>
+          <div class="how-card-sub">~0 tokens · &lt;1ms</div>
+        </div>
+      </div>
+      <p class="how-card-desc">Pure regex against the raw input string. No model call, no skill load. Catches exact-intent commands that need no classification — typos, renames, commits, status checks. If it matches here, Claude executes it directly and stops.</p>
+      <div class="how-examples">
+        <div class="how-example" style="--ex-color:var(--green)" data-cmd="fix the typo on line 42">/do fix the typo on line 42</div>
+        <div class="how-example" style="--ex-color:var(--green)" data-cmd="rename AuthService to AuthHandler">/do rename AuthService to AuthHandler</div>
+        <div class="how-example" style="--ex-color:var(--green)" data-cmd="commit my changes">/do commit my changes</div>
+      </div>
+    </div>
+
+    <div class="how-card">
+      <div class="how-card-header">
+        <span class="how-tier-badge" style="color:var(--cyan)">TIER 2</span>
+        <div>
+          <div class="how-card-name">Keyword Match</div>
+          <div class="how-card-sub">~0 tokens · &lt;10ms</div>
+        </div>
+      </div>
+      <p class="how-card-desc">The input is scanned against a keyword table built from every installed skill's name and description. "review" → /review, "debug" → /systematic-debugging. New skills register their own keywords automatically. No LLM needed.</p>
+      <div class="how-examples">
+        <div class="how-example" style="--ex-color:var(--cyan)" data-cmd="review the auth module">/do review the auth module</div>
+        <div class="how-example" style="--ex-color:var(--cyan)" data-cmd="write tests for UserService">/do write tests for UserService</div>
+        <div class="how-example" style="--ex-color:var(--cyan)" data-cmd="scaffold a new dashboard component">/do scaffold a new dashboard component</div>
+      </div>
+    </div>
+
+    <div class="how-card">
+      <div class="how-card-header">
+        <span class="how-tier-badge" style="color:var(--orange)">TIER 3</span>
+        <div>
+          <div class="how-card-name">LLM Classifier</div>
+          <div class="how-card-sub">~500 tokens · ~1–2s</div>
+        </div>
+      </div>
+      <p class="how-card-desc">Classifies 6 dimensions: scope, complexity (1–5), intent, multi-session persistence, parallel execution, and taste/judgment requirements. The first match wins. Routing to Archon or Fleet is expensive — the classifier only fires when simpler tiers fail.</p>
+      <div class="how-examples">
+        <div class="how-example" style="--ex-color:var(--orange)" data-cmd="build me a recipe app">/do build me a recipe app</div>
+        <div class="how-example" style="--ex-color:var(--orange)" data-cmd="add Stripe payments to checkout">/do add Stripe payments to checkout</div>
+        <div class="how-example" style="--ex-color:var(--orange)" data-cmd="create a real-time notification system">/do create a real-time notification system</div>
+      </div>
+    </div>
+
+    <div class="how-card">
+      <div class="how-card-header">
+        <span class="how-tier-badge" style="color:var(--purple)">TIER 3+</span>
+        <div>
+          <div class="how-card-name">Fleet Dispatch</div>
+          <div class="how-card-sub">~500 tokens · parallel</div>
+        </div>
+      </div>
+      <p class="how-card-desc">When the classifier detects platform-wide scope or required parallelism, it dispatches to Fleet instead of Archon. Fleet spawns 2–3 agents in isolated git worktrees per wave, shares discoveries between waves, and merges results with conflict arbitration.</p>
+      <div class="how-examples">
+        <div class="how-example" style="--ex-color:var(--purple)" data-cmd="overhaul all three services">/do overhaul all three services</div>
+        <div class="how-example" style="--ex-color:var(--purple)" data-cmd="redesign the entire data layer">/do redesign the entire data layer</div>
+        <div class="how-example" style="--ex-color:var(--purple)" data-cmd="migrate the platform to TypeScript strict mode">/do migrate the platform to TypeScript strict mode</div>
+      </div>
+    </div>
+  </div>
+
   <footer>
-    <span>Citadel — Agent Orchestration for Claude Code</span>
+    <span>Citadel — Agent Orchestration for Claude Code &nbsp;·&nbsp; <a href="https://repo-explainer.com/SethGammon/Citadel/">Architecture overview</a></span>
     <span>
       <a href="https://github.com/SethGammon/Citadel">GitHub</a>
       &nbsp;·&nbsp;
@@ -480,67 +684,121 @@
 
   <script>
     // ─── Routing logic ─────────────────────────────────────────────────────
-    const TIER0_PATTERNS = [
-      { re: /\b(fix|correct)\s+(the\s+)?typo\b/i, label: 'pattern: "fix typo"' },
-      { re: /\brename\s+\w+\s+to\b/i, label: 'pattern: "rename X to Y"' },
-      { re: /\b(commit|stage)\b/i, label: 'pattern: "commit"' },
-      { re: /\b(typecheck|type check|build)\b/i, label: 'pattern: "build/typecheck"' },
-      { re: /\b(status|continue|keep going)\b/i, label: 'pattern: "status/continue"' },
-      { re: /\bsetup\b/i, label: 'pattern: "setup"' },
+    const TIER0 = [
+      { re: /\b(fix|correct)\s+(the\s+)?typo\b/i,    label: 'pattern: "fix typo"',     color: 'var(--green)' },
+      { re: /\brename\s+\w+\s+to\b/i,                label: 'pattern: "rename X to Y"', color: 'var(--green)' },
+      { re: /\b(commit|stage)\b/i,                    label: 'pattern: "commit"',        color: 'var(--green)' },
+      { re: /\b(typecheck|type.?check|build)\b/i,     label: 'pattern: "build/check"',   color: 'var(--green)' },
+      { re: /\b(run tests?|test suite)\b/i,           label: 'pattern: "run tests"',     color: 'var(--green)' },
+      { re: /\bstatus\b/i,                            label: 'pattern: "status"',        color: 'var(--green)' },
+      { re: /\b(continue|keep going|resume)\b/i,      label: 'pattern: "continue"',      color: 'var(--green)' },
+      { re: /\bsetup\b/i,                             label: 'pattern: "setup"',         color: 'var(--green)' },
+      { re: /\b(list|--list)\b/i,                     label: 'pattern: "list"',          color: 'var(--green)' },
     ];
 
-    const TIER2_KEYWORDS = [
-      { re: /\b(review|code review)\b/i, skill: '/review', desc: '5-pass structured code review: correctness, security, performance, readability, consistency', tokens: '~0', latency: '<10ms' },
-      { re: /\b(test|tests|write tests|generate tests)\b/i, skill: '/test-gen', desc: 'Generates tests using your actual framework and patterns. Happy path, edge cases, error paths.', tokens: '~0', latency: '<10ms' },
-      { re: /\b(document|docs|docstring|readme)\b/i, skill: '/doc-gen', desc: 'Three modes: function-level, module-level, or API reference. Matches your doc style.', tokens: '~0', latency: '<10ms' },
-      { re: /\b(refactor|extract|split file)\b/i, skill: '/refactor', desc: 'Safe multi-file refactoring. Typechecks before and after. Reverts on failure.', tokens: '~0', latency: '<10ms' },
-      { re: /\b(scaffold|new module|new component|bootstrap)\b/i, skill: '/scaffold', desc: 'Project-aware file generation. Reads your conventions from exemplars before generating.', tokens: '~0', latency: '<10ms' },
-      { re: /\b(research|investigate|look into|find out)\b/i, skill: '/research', desc: 'Structured investigation: formulates query, searches sources, writes report to .planning/research/.', tokens: '~0', latency: '<10ms' },
-      { re: /\b(debug|root cause|diagnose|why is|investigate bug)\b/i, skill: '/systematic-debugging', desc: '4-phase root cause analysis: observe → hypothesize → verify → fix. Won\'t skip diagnosis.', tokens: '~0', latency: '<10ms' },
-      { re: /\b(prd|requirements|spec|plan an app)\b/i, skill: '/prd', desc: 'Generates a Product Requirements Document from a natural language description.', tokens: '~0', latency: '<10ms' },
-      { re: /\b(architect|architecture|file structure|plan the build)\b/i, skill: '/architect', desc: 'Converts a PRD into file tree, build phases, and machine-verifiable end conditions.', tokens: '~0', latency: '<10ms' },
+    const TIER2 = [
+      { re: /\b(review|code.?review)\b/i,             skill: '/review',
+        desc: '5-pass structured code review: correctness, security, performance, readability, consistency.', icon: '◆' },
+      { re: /\b(test|tests|write tests|generate tests?)\b/i, skill: '/test-gen',
+        desc: 'Generates runnable tests using your actual framework. Iterates up to 3x on failures before stopping.', icon: '⚗' },
+      { re: /\b(document|docs|docstring|readme)\b/i,  skill: '/doc-gen',
+        desc: 'Three modes: function-level, module-level, or API reference. Reads your existing doc style first.', icon: '📄' },
+      { re: /\b(refactor|extract|split file)\b/i,     skill: '/refactor',
+        desc: 'Safe multi-file refactoring. Typechecks before and after every change. Reverts automatically on failure.', icon: '↻' },
+      { re: /\b(scaffold|new module|new component|bootstrap)\b/i, skill: '/scaffold',
+        desc: 'Project-aware file generation. Reads your naming conventions and patterns from existing code before generating.', icon: '⬡' },
+      { re: /\b(research|investigate|look into|find out)\b/i, skill: '/research',
+        desc: 'Structured investigation with confidence levels and cited sources. Writes findings to .planning/research/.', icon: '⌕' },
+      { re: /\b(debug|root.?cause|diagnose|why is|investigate.?bug)\b/i, skill: '/systematic-debugging',
+        desc: '4-phase root cause analysis: observe → hypothesize → verify → fix. Emergency stop after 2 failed attempts.', icon: '⚡' },
+      { re: /\b(prd|requirements|spec|plan an app)\b/i, skill: '/prd',
+        desc: 'Generates a Product Requirements Document from a natural language description of your app.', icon: '📋' },
+      { re: /\b(architect|file structure|plan the build)\b/i, skill: '/architect',
+        desc: 'Converts a PRD into file tree, build phases, and machine-verifiable end conditions for each phase.', icon: '🏗' },
+      { re: /\b(experiment|optimize|a\/b|measure)\b/i, skill: '/experiment',
+        desc: 'Optimization loops with scalar fitness functions in isolated worktrees. Stops when metric stops improving.', icon: '⚗' },
+      { re: /\b(triage|issues|pull requests)\b/i,     skill: '/triage',
+        desc: 'Pulls open issues and PRs from GitHub, classifies them by severity, and searches the codebase for context.', icon: '📌' },
+      { re: /\b(postmortem|retro|what broke)\b/i,     skill: '/postmortem',
+        desc: 'Auto-generates structured postmortems from campaign telemetry and git history.', icon: '📊' },
     ];
 
-    const TIER3_RULES = [
+    const TIER3 = [
+      { re: /\b(overhaul|redesign|rewrite|rearchitect|rebuild|migrate)\b.*\b(all|entire|platform|services|system)\b/i,
+        tool: '/fleet', icon: '⬢',
+        desc: 'Parallel campaign coordinator. Spawns 2-3 agents in isolated git worktrees per wave. Discoveries shared between waves via compressed briefs. Merge arbitration on completion.',
+        dims: { intent: 'redesign', scope: 'platform-wide', complexity: 5, persist: true, parallel: true, taste: true }, color: 'var(--purple)' },
+      { re: /\b(migrate|migration)\b/i,
+        tool: '/fleet', icon: '⬢',
+        desc: 'Parallel campaign coordinator. Spawns 2-3 agents in isolated git worktrees per wave. Discoveries shared between waves via compressed briefs. Merge arbitration on completion.',
+        dims: { intent: 'migrate', scope: 'platform-wide', complexity: 5, persist: true, parallel: true, taste: true }, color: 'var(--purple)' },
+      { re: /\b(redesign|overhaul)\b/i,
+        tool: '/fleet', icon: '⬢',
+        desc: 'Parallel campaign coordinator. Spawns 2-3 agents in isolated git worktrees per wave. Discoveries shared between waves via compressed briefs.',
+        dims: { intent: 'redesign', scope: 'cross-domain', complexity: 4, persist: true, parallel: true, taste: true }, color: 'var(--purple)' },
       { re: /\b(create|build|make|generate)\b.*\b(app|application|tool|service|site|website)\b/i,
-        intent: 'create', complexity: 4, tool: '/archon', desc: 'Multi-session campaign executor. Decomposes into phases, delegates to specialists, enforces quality gates. Self-corrects every 2 phases.', tokens: '~500', latency: '~2s', persist: true },
+        tool: '/archon', icon: '⬡',
+        desc: 'Multi-session campaign executor. Decomposes into phases, delegates to Marshal sub-agents, enforces quality gates at each phase. Self-corrects direction every 2 phases.',
+        dims: { intent: 'create', scope: 'single-domain', complexity: 4, persist: true, parallel: false, taste: true }, color: 'var(--orange)' },
       { re: /\b(add|implement|integrate)\b/i,
-        intent: 'add feature', complexity: 3, tool: '/create-app', desc: 'Feature addition mode (Tier 5). Reads existing codebase conventions, adds the feature without breaking what\'s there.', tokens: '~500', latency: '~2s', persist: false },
-      { re: /\b(overhaul|redesign|rewrite|rearchitect|rebuild)\b/i,
-        intent: 'redesign', complexity: 5, tool: '/fleet', desc: 'Parallel campaign coordinator. Runs 2-3 agents in isolated git worktrees per wave. Discovery sharing between waves.', tokens: '~500', latency: '~2s', persist: true },
+        tool: '/create-app', icon: '⬡',
+        desc: 'Feature addition mode. Reads existing codebase conventions and architecture, adds the feature without breaking existing patterns.',
+        dims: { intent: 'add', scope: 'single-domain', complexity: 3, persist: false, parallel: false, taste: false }, color: 'var(--orange)' },
     ];
 
     function route(cmd) {
-      // Tier 0
-      for (const p of TIER0_PATTERNS) {
-        if (p.re.test(cmd)) {
-          return { tier: 0, matchLabel: p.label, tool: 'Direct Edit', desc: 'Claude performs the change inline — no skill loaded, no orchestrator spawned. Fastest possible path.', tokens: '0', latency: '<1ms', color: 'var(--green)' };
-        }
+      for (const p of TIER0) {
+        if (p.re.test(cmd)) return {
+          tier: 0, label: p.label, color: p.color,
+          tool: 'Direct Edit', icon: '✎',
+          desc: 'Claude performs the change inline — no skill loaded, no orchestrator spawned. Fastest possible path.',
+          tokens: '0', latency: '<1ms'
+        };
       }
-
-      // Tier 1 — always misses in demo (no live session state)
-      // skip
-
-      // Tier 2
-      for (const k of TIER2_KEYWORDS) {
-        if (k.re.test(cmd)) {
-          return { tier: 2, matchLabel: `keyword hit`, tool: k.skill, desc: k.desc, tokens: k.tokens, latency: k.latency, color: 'var(--cyan)' };
-        }
+      for (const k of TIER2) {
+        if (k.re.test(cmd)) return {
+          tier: 2, label: 'keyword hit', color: 'var(--cyan)',
+          tool: k.skill, icon: k.icon, desc: k.desc,
+          tokens: '0', latency: '<10ms'
+        };
       }
-
-      // Tier 3
-      for (const r of TIER3_RULES) {
-        if (r.re.test(cmd)) {
-          return { tier: 3, matchLabel: `intent: ${r.intent} · complexity: ${r.complexity}`, tool: r.tool, desc: r.desc, tokens: r.tokens, latency: r.latency, color: 'var(--orange)', persist: r.persist };
-        }
+      for (const r of TIER3) {
+        if (r.re.test(cmd)) return {
+          tier: 3, label: `intent: ${r.dims.intent}`, color: r.color,
+          tool: r.tool, icon: r.icon, desc: r.desc,
+          tokens: '~500', latency: '~1–2s', dims: r.dims
+        };
       }
-
-      // Fallback to Marshal
-      return { tier: 3, matchLabel: 'confidence < 0.7 → safe default', tool: '/marshal', desc: 'Single-session meta-orchestrator. Takes any direction and executes it end-to-end, spawning sub-agents as needed.', tokens: '~500', latency: '~2s', color: 'var(--purple)' };
+      return {
+        tier: 3, label: 'confidence < 0.7 → safe default', color: 'var(--purple)',
+        tool: '/marshal', icon: '⟳',
+        desc: 'Single-session meta-orchestrator. Takes any direction and executes it end-to-end by chaining the appropriate skills in sequence.',
+        tokens: '~500', latency: '~1–2s'
+      };
     }
 
-    // ─── Animation ─────────────────────────────────────────────────────────
+    // ─── Live preview ─────────────────────────────────────────────────────
+    const input = document.getElementById('cmd-input');
+    const liveBadge = document.getElementById('live-badge');
+
+    const TIER_COLORS = { 0: 'var(--green)', 2: 'var(--cyan)', 3: 'var(--orange)' };
+    const TIER_LABELS = { 0: 'Tier 0', 2: 'Tier 2', 3: 'Tier 3' };
+
+    function updateLivePreview(val) {
+      if (!val.trim()) { liveBadge.textContent = ''; liveBadge.className = 'live-badge'; return; }
+      const r = route(val.trim());
+      const label = `→ ${r.tool}`;
+      liveBadge.textContent = label;
+      liveBadge.style.color = r.color;
+      liveBadge.className = 'live-badge active';
+    }
+
+    input.addEventListener('input', e => updateLivePreview(e.target.value));
+
+    // ─── Animation ────────────────────────────────────────────────────────
     const TIER_IDS = ['tier0', 'tier1', 'tier2', 'tier3'];
+    let history = [];
+    let histIdx = -1;
 
     async function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
 
@@ -551,6 +809,7 @@
         el.querySelector('.tier-status').textContent = '';
       }
       document.getElementById('output-section').classList.remove('visible');
+      document.getElementById('classification').classList.remove('visible', 'purple-theme');
     }
 
     async function animateRoute(cmd) {
@@ -558,44 +817,45 @@
       const panel = document.getElementById('result-panel');
       const spinner = document.getElementById('spinner');
       const resultCmd = document.getElementById('result-command');
+      const timerEl = document.getElementById('result-timer');
 
       panel.classList.add('visible');
       resultCmd.textContent = `/do ${cmd}`;
       spinner.classList.add('active');
+      timerEl.textContent = '';
+      const t0 = performance.now();
 
       const result = route(cmd);
 
-      // Animate each tier in sequence
       for (let i = 0; i <= 3; i++) {
         const tierEl = document.getElementById(`tier${i}`);
         const statusEl = document.getElementById(`tier${i}-status`);
 
-        // Skip tier 1 (no live session state)
         if (i === 1) {
-          await sleep(120);
+          await sleep(80);
           tierEl.classList.add('skipped');
-          statusEl.textContent = '— (no active session)';
+          statusEl.textContent = '— no active session';
           statusEl.style.color = 'var(--muted)';
           continue;
         }
 
         tierEl.classList.add('checking');
-        statusEl.textContent = 'checking…';
+        statusEl.textContent = 'evaluating…';
         statusEl.style.color = 'var(--muted)';
-        await sleep(350);
+
+        const delay = i === 0 ? 280 : i === 2 ? 380 : 520;
+        await sleep(delay);
 
         if (i === result.tier) {
-          // This tier matched
           tierEl.classList.remove('checking');
           tierEl.classList.add('matched');
-          statusEl.textContent = `✓  ${result.matchLabel}`;
+          statusEl.textContent = `✓  ${result.label}`;
           statusEl.style.color = result.color;
-          // Skip remaining tiers
+
           for (let j = i + 1; j <= 3; j++) {
-            const rest = document.getElementById(`tier${j}`);
-            rest.classList.add('skipped');
-            document.getElementById(`tier${j}-status`).textContent = '— skipped';
-            document.getElementById(`tier${j}-status`).style.color = 'var(--muted)';
+            document.getElementById(`tier${j}`).classList.add('skipped');
+            const s = document.getElementById(`tier${j}-status`);
+            s.textContent = '— skipped'; s.style.color = 'var(--muted)';
           }
           break;
         } else {
@@ -606,59 +866,144 @@
         }
       }
 
-      // Show output
       spinner.classList.remove('active');
-      await sleep(200);
+      const elapsed = Math.round(performance.now() - t0);
+      timerEl.textContent = `${elapsed}ms`;
 
-      const outName = document.getElementById('output-name');
-      const outDesc = document.getElementById('output-desc');
-      const outMeta = document.getElementById('output-meta');
-      const outIcon = document.getElementById('output-icon');
-      const outInner = document.getElementById('output-inner');
+      // Classification breakdown for Tier 3
+      if (result.tier === 3 && result.dims) {
+        const cl = document.getElementById('classification');
+        cl.classList.add('visible');
+        if (result.color === 'var(--purple)') cl.classList.add('purple-theme');
+
+        const isP = result.color === 'var(--purple)';
+        const ac = isP ? 'accent-purple' : 'accent';
+        const dc = isP ? 'on-purple' : 'on';
+
+        document.getElementById('cl-intent').textContent = result.dims.intent;
+        document.getElementById('cl-intent').className = `cl-value ${ac}`;
+        document.getElementById('cl-scope').textContent = result.dims.scope;
+        document.getElementById('cl-parallel').textContent = result.dims.parallel ? 'yes' : 'no';
+        document.getElementById('cl-parallel').className = `cl-value ${result.dims.parallel ? ac : ''}`;
+        document.getElementById('cl-persist').textContent = result.dims.persist ? 'yes' : 'no';
+        document.getElementById('cl-persist').className = `cl-value ${result.dims.persist ? ac : ''}`;
+        document.getElementById('cl-taste').textContent = result.dims.taste ? 'yes' : 'no';
+
+        const dotsEl = document.getElementById('cl-dots');
+        dotsEl.innerHTML = '';
+        for (let i = 0; i < 5; i++) {
+          const d = document.createElement('div');
+          d.className = `cl-dot${i < result.dims.complexity ? ' ' + dc : ''}`;
+          dotsEl.appendChild(d);
+        }
+      }
+
+      await sleep(180);
+
+      // Output card
+      document.getElementById('output-icon').textContent = result.icon || '◆';
+      document.getElementById('output-icon').style.color = result.color;
+      document.getElementById('output-name').textContent = result.tool;
+      document.getElementById('output-name').style.color = result.color;
+      document.getElementById('output-desc').textContent = result.desc;
+
+      const inner = document.getElementById('output-inner');
+      inner.style.borderColor = result.color;
+      inner.style.boxShadow = `0 0 28px color-mix(in srgb, ${result.color} 12%, transparent)`;
+
       const outSection = document.getElementById('output-section');
+      outSection.style.borderColor = result.color + '30';
 
-      const icons = { '/review': '◆', '/test-gen': '⚗', '/doc-gen': '📄', '/refactor': '↻',
-        '/scaffold': '⬡', '/research': '⌕', '/systematic-debugging': '⚡',
-        '/prd': '📋', '/architect': '🏗', '/archon': '⬡', '/fleet': '⬢',
-        '/create-app': '⬡', '/marshal': '⟳', 'Direct Edit': '✎' };
-
-      outIcon.textContent = icons[result.tool] || '◆';
-      outIcon.style.color = result.color;
-      outName.textContent = result.tool;
-      outName.style.color = result.color;
-      outDesc.textContent = result.desc;
-      outInner.style.borderColor = result.color;
-      outSection.style.borderColor = result.color + '40';
-
-      outMeta.innerHTML = `
-        <span class="meta-badge highlight" style="--match-color: ${result.color}">Tier ${result.tier}</span>
-        <span class="meta-badge">~${result.tokens} classify tokens</span>
-        <span class="meta-badge">${result.latency} to dispatch</span>
-        ${result.persist ? `<span class="meta-badge highlight" style="--match-color: ${result.color}">multi-session</span>` : ''}
+      document.getElementById('output-meta').innerHTML = `
+        <span class="meta-badge hi" style="--match-color:${result.color}">Tier ${result.tier}</span>
+        <span class="meta-badge">${result.tokens} tokens to classify</span>
+        <span class="meta-badge">${result.latency} dispatch</span>
+        ${result.dims && result.dims.persist ? `<span class="meta-badge hi" style="--match-color:${result.color}">multi-session</span>` : ''}
+        ${result.dims && result.dims.parallel ? `<span class="meta-badge hi" style="--match-color:${result.color}">parallel fleet</span>` : ''}
       `;
 
       outSection.classList.add('visible');
+
+      // History
+      history = [{ cmd, result }, ...history.filter(h => h.cmd !== cmd)].slice(0, 6);
+      histIdx = -1;
+      renderHistory();
     }
 
-    // ─── Event handlers ─────────────────────────────────────────────────────
-    const input = document.getElementById('cmd-input');
+    function renderHistory() {
+      const sec = document.getElementById('history-section');
+      const items = document.getElementById('history-items');
+      if (history.length < 2) { sec.classList.remove('visible'); return; }
+      sec.classList.add('visible');
+      items.innerHTML = '';
+      // skip index 0 (current route)
+      history.slice(1).forEach(h => {
+        const pill = document.createElement('button');
+        pill.className = 'history-pill';
+        pill.style.setProperty('--pill-color', h.result.color);
+        pill.textContent = h.cmd;
+        pill.title = `→ ${h.result.tool}`;
+        pill.addEventListener('click', () => {
+          input.value = h.cmd;
+          animateRoute(h.cmd);
+        });
+        items.appendChild(pill);
+      });
+    }
 
+    // ─── Event handlers ───────────────────────────────────────────────────
     input.addEventListener('keydown', e => {
       if (e.key === 'Enter' && input.value.trim()) {
         animateRoute(input.value.trim());
       }
+      if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        const cmds = history.map(h => h.cmd);
+        if (cmds.length > 0) {
+          histIdx = Math.min(histIdx + 1, cmds.length - 1);
+          input.value = cmds[histIdx];
+          updateLivePreview(input.value);
+        }
+      }
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        if (histIdx > 0) {
+          histIdx--;
+          input.value = history[histIdx].cmd;
+        } else {
+          histIdx = -1;
+          input.value = '';
+        }
+        updateLivePreview(input.value);
+      }
+      if (e.key === 'Escape') {
+        input.value = '';
+        histIdx = -1;
+        updateLivePreview('');
+      }
     });
 
+    // Example buttons
     document.querySelectorAll('.example-btn').forEach(btn => {
       btn.addEventListener('click', () => {
-        const cmd = btn.dataset.cmd;
-        input.value = cmd;
-        animateRoute(cmd);
+        input.value = btn.dataset.cmd;
+        updateLivePreview(btn.dataset.cmd);
+        animateRoute(btn.dataset.cmd);
+      });
+    });
+
+    // How-section example links
+    document.querySelectorAll('.how-example[data-cmd]').forEach(el => {
+      el.addEventListener('click', () => {
+        input.value = el.dataset.cmd;
+        updateLivePreview(el.dataset.cmd);
+        animateRoute(el.dataset.cmd);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
       });
     });
 
     // Auto-demo on load
-    setTimeout(() => animateRoute('review the auth module'), 800);
+    setTimeout(() => animateRoute('review the auth module'), 700);
   </script>
 </body>
 </html>
