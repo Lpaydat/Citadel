@@ -12,6 +12,8 @@
 const fs = require('fs');
 const path = require('path');
 const { readJsonlDetailed } = require('../core/telemetry/io');
+const { getCoordinationStatus } = require('../core/coordination/instances');
+const { getClaimStatus } = require('../core/coordination/claims');
 
 // Real token reader for enriched cost data
 let sessionTokens = null;
@@ -22,9 +24,6 @@ const PLANNING_DIR = path.join(ROOT, '.planning');
 const TELEMETRY_DIR = path.join(PLANNING_DIR, 'telemetry');
 const CAMPAIGNS_DIR = path.join(PLANNING_DIR, 'campaigns');
 const FLEET_DIR = path.join(PLANNING_DIR, 'fleet');
-const COORD_DIR = path.join(PLANNING_DIR, 'coordination');
-const INSTANCES_DIR = path.join(COORD_DIR, 'instances');
-const CLAIMS_DIR = path.join(COORD_DIR, 'claims');
 const SETTINGS_PATH = path.join(ROOT, '.claude', 'settings.json');
 
 // Token estimation constants
@@ -133,8 +132,8 @@ function readTelemetryFileStats() {
 // ── Coordination stats ────────────────────────────────────────────────────────
 
 function readCoordinationStats() {
-  const claims = listFiles(CLAIMS_DIR, '.json').filter(f => !f.startsWith('.')).length;
-  const instances = listFiles(INSTANCES_DIR, '.json').filter(f => !f.startsWith('.')).length;
+  const claims = getClaimStatus({ projectRoot: ROOT }).claims.length;
+  const instances = getCoordinationStatus({ projectRoot: ROOT }).instances.length;
   return { active_claims: claims, active_instances: instances };
 }
 
