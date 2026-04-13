@@ -11,11 +11,14 @@
     "telemetry:report": "node scripts/telemetry-report.cjs",
     "telemetry:log": "node scripts/telemetry-log.cjs",
     "compress:discovery": "node scripts/compress-discovery.cjs",
-    "test:hooks": "node hooks_src/smoke-test.js"
+    "test:hooks": "node hooks_src/smoke-test.js",
+    "install:opencode": "node scripts/install-opencode.js",
+    "uninstall:opencode": "node scripts/uninstall-opencode.js"
   },
   "keywords": [
     "claude",
     "claude-code",
+    "opencode",
     "agent",
     "harness",
     "orchestration",

@@ -9,6 +9,7 @@ const RUNTIME_IDS = Object.freeze([
   'claude-code',
   'codex',
   'openai',
+  'opencode',
   'unknown',
 ]);
 
