@@ -8,8 +8,18 @@ const path = require('path');
 const OPENCODE_CONFIG = process.env.XDG_CONFIG_HOME ||
   path.join(process.env.HOME || '/root', '.config', 'opencode');
 const OPENCODE_SKILL_DIR = path.join(OPENCODE_CONFIG, 'skill');
+const OPENCODE_COMMAND_DIR = path.join(OPENCODE_CONFIG, 'commands');
 const OPENCODE_CONFIG_FILE = path.join(OPENCODE_CONFIG, 'opencode.json');
 const SKILL_PREFIX = 'citadel-';
+const CITADEL_SKILLS = [
+  'architect','archon','ascii-diagram','autopilot','cost','create-app',
+  'create-skill','daemon','dashboard','design','do','doc-gen','experiment',
+  'fleet','houseclean','improve','infra-audit','learn','live-preview','map',
+  'marshal','merge-review','organize','postmortem','pr-watch','prd','qa',
+  'refactor','research','research-fleet','review','scaffold','schedule',
+  'session-handoff','setup','systematic-debugging','telemetry','test-gen',
+  'triage','verify','watch','wiki','workspace',
+];
 
 function main() {
   console.log('');
@@ -30,6 +40,22 @@ function main() {
   }
 
   console.log(`Removed ${citadelSkills.length} Citadel skill symlinks`);
+
+  console.log('');
+  console.log('Removing slash commands...');
+  let cmdsRemoved = 0;
+  for (const skill of CITADEL_SKILLS) {
+    const cmdPath = path.join(OPENCODE_COMMAND_DIR, skill + '.md');
+    if (fs.existsSync(cmdPath)) {
+      try {
+        fs.unlinkSync(cmdPath);
+        cmdsRemoved++;
+      } catch (err) {
+        console.error(`  FAIL: ${skill}.md: ${err.message}`);
+      }
+    }
+  }
+  console.log(`Removed ${cmdsRemoved} Citadel slash commands`);
 
   if (fs.existsSync(OPENCODE_CONFIG_FILE)) {
     const config = JSON.parse(fs.readFileSync(OPENCODE_CONFIG_FILE, 'utf8'));

@@ -9,6 +9,7 @@ const { execSync } = require('child_process');
 const OPENCODE_CONFIG = process.env.XDG_CONFIG_HOME ||
   path.join(process.env.HOME || '/root', '.config', 'opencode');
 const OPENCODE_SKILL_DIR = path.join(OPENCODE_CONFIG, 'skill');
+const OPENCODE_COMMAND_DIR = path.join(OPENCODE_CONFIG, 'commands');
 const CITADEL_ROOT = path.resolve(__dirname, '..');
 const CITADEL_SKILLS_DIR = path.join(CITADEL_ROOT, 'skills');
 const OPENCODE_CONFIG_FILE = path.join(OPENCODE_CONFIG, 'opencode.json');
@@ -56,6 +57,49 @@ function symlinkSkills(skills) {
   }
 
   return { created, skipped, failed };
+}
+
+function extractDescription(skillMd) {
+  const content = fs.readFileSync(skillMd, 'utf8');
+  const fmMatch = content.match(/^---\n([\s\S]*?)\n---/);
+  if (!fmMatch) return '';
+  const block = fmMatch[1];
+  const multiline = block.match(/description:\s*>-\s*\n([\s\S]*?)(?=\n\w|\n---|$)/);
+  if (multiline) return multiline[1].replace(/\n\s+/g, ' ').trim();
+  const simple = block.match(/description:\s*(.+)/);
+  if (simple) return simple[1].trim();
+  return '';
+}
+
+function generateCommands(skills) {
+  ensureDir(OPENCODE_COMMAND_DIR);
+  let created = 0;
+  let updated = 0;
+
+  for (const skill of skills) {
+    const skillMd = path.join(CITADEL_SKILLS_DIR, skill, 'SKILL.md');
+    let description = extractDescription(skillMd) || ('Citadel skill: ' + skill);
+    if (description.length > 120) description = description.substring(0, 117) + '...';
+
+    const cmdContent = [
+      '---',
+      'description: ' + description,
+      '---',
+      '',
+      'Use the skill tool to load citadel-' + skill + ', then follow its protocol exactly.',
+      '',
+    ].join('\n');
+
+    const cmdPath = path.join(OPENCODE_COMMAND_DIR, skill + '.md');
+    if (fs.existsSync(cmdPath)) {
+      updated++;
+    } else {
+      created++;
+    }
+    fs.writeFileSync(cmdPath, cmdContent);
+  }
+
+  return { created, updated };
 }
 
 function updateOpenCodeConfig() {
@@ -124,6 +168,12 @@ function main() {
   console.log('');
   console.log('Registering instructions...');
   updateOpenCodeConfig();
+
+  console.log('');
+  console.log('Generating slash commands...');
+  const cmdResult = generateCommands(skills);
+  console.log(`  Created: ${cmdResult.created}`);
+  console.log(`  Updated: ${cmdResult.updated}`);
 
   console.log('');
   console.log('=== Installation Complete ===');
